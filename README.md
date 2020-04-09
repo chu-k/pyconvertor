@@ -12,11 +12,11 @@ The conversion type is inferred from file extension provided as input and output
 
 Currently supported conversions:
 
-| From      | To        |
-| ------    | ------    |
-| *.nodal   | *.cac     |
-|           | *.last    |
-
+| From      | To        | Notes      |
+| ------    | ------    | ------     |
+| *.nodal   | *.cac     | readable by LAMMPS `read_data`     |
+|           | *.last    | mixed-resolution NEB replica |
+|           | *.cacovito| visualization of CAC nodes in OVITO     |
 
 
 ### Installation and usage
