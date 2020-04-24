@@ -11,6 +11,7 @@ def read_args():
         ''')
     parser.add_argument('--input', '-i', help='input file for conversion', required=True)
     parser.add_argument('--output', '-o', help='output file name', required=True)
+    parser.add_argument('--replace', '-r', help='force overwrite without prompt', action="store_true")
     return(parser.parse_args())
 
 def run():
@@ -24,7 +25,7 @@ def run():
 
     getattr(formatted, f"to_list_{out_ext}")()
 
-    helpers.write_to_file(formatted.get_list(), args.output)
+    helpers.write_to_file(formatted.get_list(), args.output, args.replace)
 
 if __name__ == '__main__':
     run()

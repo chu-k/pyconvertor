@@ -9,10 +9,10 @@ def read_line_number(file, lineno):
         return(next(f_fp).strip())
 
 
-def write_to_file(string_list, output_file):
+def write_to_file(string_list, output_file, force_overwrite):
 # write every element of a list to a specified output file
 # prompt on overwrite
-    if path.isfile(output_file):
+    if path.isfile(output_file) and not force_overwrite:
         ow = input(f"{output_file} exists, overwrite? y/n(default): ")
         if ow == 'y' or ow == 'yes':
             print(f"Replacing {output_file}")
