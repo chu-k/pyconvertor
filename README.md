@@ -17,7 +17,7 @@ Currently supported conversions:
 | *.nodal   | *.cac     | readable by LAMMPS `read_data`     |
 |           | *.last    | mixed-resolution NEB replica |
 |           | *.cacovito| visualization of CAC nodes in OVITO     |
-
+| *.dump   | *.last     | LAMMPS NEB replica format     |
 
 ### Installation and usage
 From this directory...

@@ -5,6 +5,7 @@
 
 # import newly created formats here
 from .nodal import Nodal
+from .dump import Dump
 #from .modulename import ClassName
 
 class Selector(object):
@@ -14,6 +15,8 @@ class Selector(object):
     def create(self, fpath):
         if self.fmt == 'nodal':
             return Nodal(fpath, self.fmt)
+        elif self.fmt == 'dump':
+            return Dump(fpath, self.fmt)
         #elif NEW FORMAT CLASS DEFINITIONS HERE
         else:
             pass
