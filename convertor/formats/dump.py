@@ -54,7 +54,7 @@ class Dump(FormatClass):
 
         for i in range(self.natoms):
             curr = self.positions[i]
-            atomid = curr[2]
+            atomid = int(curr[2])
             atomxyz = curr[3:6]
             a.append(f'{atomid}\t{"     ".join(str(a) for a in atomxyz)}\n')
 
