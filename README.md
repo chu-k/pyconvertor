@@ -2,7 +2,7 @@
 
 This toolkit contains Python programs that allow for CAC data file pre/post processing outside the scope of the core Fortran code.
 
-See `requirements.txt` for package dependencies. You can use pip to install these directly.
+The only package dependency is `numpy`. You can use pip to install these directly.
 
 ## convertor (_under development_)
 
