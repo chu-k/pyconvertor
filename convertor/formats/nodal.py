@@ -46,7 +46,7 @@ class Nodal(FormatClass):
         # Determine if the next element info has been read
         #   if it's an element, 8 lines follow
         #   else just one
-            for _ in range(13): #skips header lines
+            for _ in range(12 + self.ntypes): #skips header lines
                 next(in_fp)
             for line in in_fp:
                 line_arr = line.split()
