@@ -30,8 +30,9 @@ class Nodal(FormatClass):
 
     def read_body(self):
     # reads in cac/nodal 8-node data into a numpy array
-    # returns the size array and the position array, ordered by id
+    # sets the size array and the position array, ordered by id
         info = np.zeros((self.nelements,5))
+        atypes = np.zeros((self.nelements,8))
         positions = np.zeros((self.nelements, 8, 3))
 
         eid = 0
@@ -58,14 +59,18 @@ class Nodal(FormatClass):
                     remaining = self.SIZES[esize][0]
                 else:
                     poly_i = int(line_arr[0]) - 1
+                    # esize != 0 is an element
                     if esize:
                         positions[eid][poly_i] = [i for i in line_arr[3:]]
+                        atypes[eid][poly_i] = line_arr[2]
                         remaining -= 1
+                        # step through all DOF lines in an element
                         if not remaining:
                             is_info = True
                             nele += 1
                     else:
                         positions[eid][poly_i] = [i for i in line_arr[3:]]
+                        atypes[eid][poly_i] = line_arr[2]                        
                         is_info = True
                         nat += 1
 
@@ -82,6 +87,7 @@ class Nodal(FormatClass):
             sys.exit(1)
         self.info = info
         self.positions = positions
+        self.atypes = atypes
 
     def to_list_cac(self):
     # convert all data to a single list in cac format
@@ -108,7 +114,8 @@ class Nodal(FormatClass):
             a.append(f'\t{id+1}\t{self.SIZES[etype][1]}\t{"    ".join(str(a) for a in st[1:].astype(int))}\n')
 
             for p in range(self.SIZES[etype][0]):
-                a.append(f'\t{p+1}\t1\t1\t{"    ".join(str(c) for c in curr_p[p])}\n')
+                atype = int(self.atypes[id][p])
+                a.append(f'\t{p+1}\t1\t{atype}\t{"    ".join(str(c) for c in curr_p[p])}\n')
 
         self.list_data = a
 
@@ -142,6 +149,7 @@ class Nodal(FormatClass):
             curr_p = self.positions[id]
 
             for p in range(self.SIZES[etype][0]):
-                a.append(f'{etype} {id} {"    ".join(str(c) for c in curr_p[p])}\n')
+                atype = int(self.atypes[id][p])
+                a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])}\n')
 
         self.list_data = a
