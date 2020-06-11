@@ -6,6 +6,7 @@
 # import newly created formats here
 from .nodal import Nodal
 from .dump import Dump
+from .cac import Cac
 #from .modulename import ClassName
 
 class Selector(object):
@@ -17,6 +18,8 @@ class Selector(object):
             return Nodal(fpath, self.fmt)
         elif self.fmt == 'dump':
             return Dump(fpath, self.fmt)
+        elif self.fmt == 'cac':
+            return Cac(fpath, self.fmt)
         #elif NEW FORMAT CLASS DEFINITIONS HERE
         else:
             pass
