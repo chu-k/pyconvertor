@@ -14,7 +14,7 @@ class Dump(FormatClass):
     def read_header(self):
     # parse header info into desired format
         input = self.path
-        self.header = self.header = [hp.read_line_number(input, 1).split(),
+        self.header = [hp.read_line_number(input, 1).split(),
                         hp.read_line_number(input, 3).split(),
                         [hp.read_line_number(input, n+5).split() for n in range(3)],
                       ]
