@@ -17,7 +17,8 @@ Currently supported conversions:
 | *.nodal   | *.cac     | readable by LAMMPS `read_data`     |
 |           | *.last    | mixed-resolution NEB replica |
 |           | *.cacovito| visualization of CAC nodes in OVITO     |
-| *.dump   | *.last     | LAMMPS NEB replica format     |
+| *.dump    | *.last     | LAMMPS NEB replica format     |
+| *.cac     | *.cacovito| 
 
 ### Installation and usage
 From this directory...
@@ -27,9 +28,12 @@ pip install .
 
 **Examples**
 
+Command line args are self explanatory
+`--replace [-r]` is overwrite without prompting
+
 ```
 python -m convertor -h
 python -m convertor -i INPUTFILE -o OUTPUTFILE
-python -m convertor -i input.nodal -o output.cac
+python -m convertor -i input.nodal -o output.cac -r
 ```
 
