@@ -1,6 +1,6 @@
 # CACmb Toolkit
 
-This toolkit contains Python programs that allow for CAC data file pre/post processing outside the scope of the core Fortran code.
+This toolkit contains Python programs that allow for CAC data file pre/post processing outside the scope of the [core Fortran code](https://gitlab.com/aselimov/cacmb).
 
 See `requirements.txt` for package dependencies. You can use pip to install these directly.
 
