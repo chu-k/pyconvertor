@@ -29,7 +29,8 @@ pip install .
 **Examples**
 
 Command line args are self explanatory
-`--replace [-r]` is overwrite without prompting
+`--replace [-r]` to replace existing without prompting
+`--virial [-v]` merges in virial information matching the filename of the dumpfile (*.virial)
 
 ```
 python -m convertor -h
