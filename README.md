@@ -1,6 +1,6 @@
 # CACmb Toolkit
 
-This toolkit contains Python programs that allow for CAC data file pre/post processing outside the scope of the core Fortran code.
+This toolkit contains Python programs that allow for CAC data file pre/post processing outside the scope of the [core Fortran code](https://gitlab.com/aselimov/cacmb).
 
 See `requirements.txt` for package dependencies. You can use pip to install these directly.
 
@@ -37,3 +37,9 @@ python -m convertor -i INPUTFILE -o OUTPUTFILE
 python -m convertor -i input.nodal -o output.cac -r
 ```
 
+### \*.cacovito format
+This format allows you to view CAC structure files in OVITO and color by property. Molecule Type = 1 for nodes, = 0 for atomic DOF.
+Load the custom column mapping as:
+
+
+<img src="colmap.png" width="250">
