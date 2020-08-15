@@ -1,4 +1,6 @@
 import numpy as np
+import os.path
+import sys
 
 from ..utils import helpers as hp
 from .parent import FormatClass
@@ -9,6 +11,11 @@ class Nodal(FormatClass):
         super(Nodal, self).__init__(*args)
         self.read_header()
         self.read_body()
+
+        if self.vir_bool :
+            self.read_virial()
+        if self.f_bool:
+            self.read_force()
 
 
 
@@ -62,7 +69,6 @@ class Nodal(FormatClass):
                     # esize != 0 is an element
                     if esize:
                         positions[eid][poly_i] = [i for i in line_arr[3:]]
-                        atypes[eid][poly_i] = line_arr[2]
                         remaining -= 1
                         # step through all DOF lines in an element
                         if not remaining:
@@ -70,7 +76,6 @@ class Nodal(FormatClass):
                             nele += 1
                     else:
                         positions[eid][poly_i] = [i for i in line_arr[3:]]
-                        atypes[eid][poly_i] = line_arr[2]                        
                         is_info = True
                         nat += 1
 
@@ -88,6 +93,66 @@ class Nodal(FormatClass):
         self.info = info
         self.positions = positions
         self.atypes = atypes
+
+    def read_virial(self):
+    # reads in cac/virial 8-node data into a numpy array
+    # filename should be *.virial, matching timestep *.nodal
+        virial = np.zeros((self.nelements, 8, 6))
+
+        basename, step = os.path.split(self.path)
+        virial_path = os.path.join(basename,os.path.splitext(step)[0] + ".virial")
+        if not os.path.exists(virial_path):
+            print(f"ERROR: Could not find a virial file matching {step}")
+            sys.exit(1)
+
+        eid = 0
+        is_info = True
+        lines_remaining = 0
+
+
+        nread = 0
+        nat = 0
+        nele = 0
+        with open(virial_path) as in_fp:
+        # Determine if the next element info has been read
+        #   if it's an element, 8 lines follow
+        #   else just one
+            for _ in range(1): #skips header lines
+                next(in_fp)
+            for line in in_fp:
+                line_arr = line.split()
+                if is_info: # contains id, element type/scale
+                    eid = int(line_arr[0]) - 1
+                    esize = int(self.info[eid][0])
+                    is_info = False
+                    remaining = self.SIZES[esize][0]
+                else:
+                    poly_i = int(line_arr[0]) - 1
+                    # esize != 0 is an element
+                    if esize:
+                        virial[eid][poly_i] = [i for i in line_arr[3:]]
+                        remaining -= 1
+                        # step through all DOF lines in an element
+                        if not remaining:
+                            is_info = True
+                            nele += 1
+                    else:
+                        virial[eid][poly_i] = [i for i in line_arr[3:]]
+                        is_info = True
+                        nat += 1
+
+                    nread += 1
+        # basic lines read check
+        print(f"-- read virial stresses")
+
+        try:
+            assert(nread == self.nnodes)
+            assert(nat + nele*8 == self.nnodes)
+            assert(nat + nele == self.nelements)
+        except AssertionError:
+            print("mismatch in nodal/virial file")
+            sys.exit(1)
+        self.virial = virial
 
     def to_list_cac(self):
     # convert all data to a single list in cac format
@@ -147,9 +212,15 @@ class Nodal(FormatClass):
             st = self.info[id]
             etype = int(st[0])
             curr_p = self.positions[id]
+            if self.vir_bool:
+                curr_v = self.virial[id]
 
             for p in range(self.SIZES[etype][0]):
                 atype = int(self.atypes[id][p])
-                a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])}\n')
+                if self.vir_bool:
+                    a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])} \
+                                                {"    ".join(str(v) for v in curr_v[p])}\n')
+                else:
+                    a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])}\n')
 
         self.list_data = a

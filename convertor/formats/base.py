@@ -11,11 +11,13 @@ from .cac import Cac
 
 class Selector(object):
 # factory pattern to create instatiations of format parsers
-    def __init__(self, fmt):
+    def __init__(self, fmt, vir, force):
         self.fmt = fmt
+        self.vir_bool = vir
+        self.f_bool = force
     def create(self, fpath):
         if self.fmt == 'nodal':
-            return Nodal(fpath, self.fmt)
+            return Nodal(fpath, self.fmt, self.vir_bool, self.f_bool)
         elif self.fmt == 'dump':
             return Dump(fpath, self.fmt)
         elif self.fmt == 'cac':

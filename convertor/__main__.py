@@ -12,6 +12,9 @@ def read_args():
     parser.add_argument('--input', '-i', help='input file for conversion', required=True)
     parser.add_argument('--output', '-o', help='output file name', required=True)
     parser.add_argument('--replace', '-r', help='force overwrite without prompt', action="store_true")
+    parser.add_argument('--virial', '-v', help='look for matching virial files', action="store_true")
+    parser.add_argument('--force', '-f', help='look for matching force files', action="store_true")
+
     return(parser.parse_args())
 
 def run():
@@ -20,7 +23,7 @@ def run():
     in_ext = helpers.get_format(args.input)
     out_ext = helpers.get_format(args.output)
 
-    base_format = base.Selector(in_ext)
+    base_format = base.Selector(in_ext, args.virial, args.force)
     formatted = base_format.create(args.input)
 
     getattr(formatted, f"to_list_{out_ext}")()
