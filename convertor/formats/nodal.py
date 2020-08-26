@@ -28,7 +28,11 @@ class Nodal(FormatClass):
                         hp.read_line_number(input, 2).split(),
                         [hp.read_line_number(input, n+4).split() for n in range(3)],
                       ]
-        self.nnodes = int(self.header[0][4])
+        try:
+            self.nnodes = int(self.header[0][4])
+        except ValueError: # catch header line with no comment flag
+            self.nnodes = int(self.header[0][3])
+
         self.nelements = int(self.header[1][0])
         self.ntypes = int(self.header[2][0])
         self.box = [a[:2] for a in self.header[3]]
@@ -69,6 +73,7 @@ class Nodal(FormatClass):
                     # esize != 0 is an element
                     if esize:
                         positions[eid][poly_i] = [i for i in line_arr[3:]]
+                        atypes[eid][poly_i] = line_arr[2]
                         remaining -= 1
                         # step through all DOF lines in an element
                         if not remaining:
@@ -76,6 +81,7 @@ class Nodal(FormatClass):
                             nele += 1
                     else:
                         positions[eid][poly_i] = [i for i in line_arr[3:]]
+                        atypes[eid][poly_i] = line_arr[2]
                         is_info = True
                         nat += 1
 
