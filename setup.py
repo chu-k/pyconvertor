@@ -32,7 +32,7 @@ here = path.abspath(path.dirname(__file__))
 setup(
 
     name='mbconvert',  # Required
-    version='0.1.1',  # Required
+    version='0.1.2',  # Required
     python_requires='>={}.{}'.format(*REQUIRED_PYTHON),
     description='CACmbconvertor toolkit',  # Required
     author='Kevin Chu',  # Optional

@@ -11,7 +11,7 @@ from .cac import Cac
 
 class Selector(object):
 # factory pattern to create instatiations of format parsers
-    def __init__(self, fmt, vir, force):
+    def __init__(self, fmt, vir=False, force=False):
         self.fmt = fmt
         self.vir_bool = vir
         self.f_bool = force
@@ -21,7 +21,7 @@ class Selector(object):
         elif self.fmt == 'dump':
             return Dump(fpath, self.fmt)
         elif self.fmt == 'cac':
-            return Cac(fpath, self.fmt)
+            return Cac(fpath, self.fmt, self.vir_bool, self.f_bool)
         #elif NEW FORMAT CLASS DEFINITIONS HERE
         else:
             pass
