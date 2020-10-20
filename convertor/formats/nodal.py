@@ -230,3 +230,45 @@ class Nodal(FormatClass):
                     a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])}\n')
 
         self.list_data = a
+
+    def to_list_xyz(self):
+        """ extended XYZ allows for definition of header info, box info, column tags"""
+        a = []
+        lx, ly, lz = self.box
+        # EXYZ
+        if self.vir_bool:
+            header_string = (f'{self.nnodes}\n' 
+                         f'Lattice="'
+                         f'{float(lx[1]) + abs(float(lx[0]))} 0.0 0.0 0.0 '
+                         f'{float(ly[1]) + abs(float(ly[0]))} 0.0 0.0 0.0 '
+                         f'{float(lz[1]) + abs(float(lz[0]))} 0.0 0.0 0.0" '
+                         f'Origin="{lx[0]} {ly[0]} {lz[0]}" '
+                         f'Properties=id:I:1:'
+                         f'molecule_type:I:1:species:I:1:pos:R:3:stress:R:6\n')
+        else:
+            header_string = (f'{self.nnodes}\n' 
+                         f'Lattice="'
+                         f'{float(lx[1]) + abs(float(lx[0]))} 0.0 0.0 0.0 '
+                         f'{float(ly[1]) + abs(float(ly[0]))} 0.0 0.0 0.0 '
+                         f'{float(lz[1]) + abs(float(lz[0]))} 0.0 0.0 0.0" '
+                         f'Origin="{lx[0]} {ly[0]} {lz[0]}" '
+                         f'Properties=id:I:1:'
+                         f'molecule_type:I:1:species:I:1:pos:R:3\n')
+        a.append(header_string)
+
+        for id in range(self.nelements):
+            st = self.info[id]
+            etype = int(st[0])
+            curr_p = self.positions[id]
+            if self.vir_bool:
+                curr_v = self.virial[id]
+
+            for p in range(self.SIZES[etype][0]):
+                atype = int(self.atypes[id][p])
+                if self.vir_bool:
+                    a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])} \
+                                                {"    ".join(str(v) for v in curr_v[p])}\n')
+                else:
+                    a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])}\n')
+
+        self.list_data = a

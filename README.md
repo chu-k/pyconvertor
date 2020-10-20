@@ -16,10 +16,11 @@ Currently supported conversions:
 | ------    | ------    | ------     |
 | *.nodal   | *.cac     | readable by LAMMPS `read_data`     |
 |           | *.last    | mixed-resolution NEB replica |
+|           | *.xyz     | Extended XYZ format (supports --virial flag)|
 |           | *.cacovito| visualization of CAC nodes in OVITO     |
 | *.dump    | *.last    | LAMMPS NEB replica format     |
 | *.cac     | *.cacovito| 
-|           | *.xyz     | Extended XYZ format that preserves box vector and origin|
+|           | *.xyz     | Extended XYZ format |
 
 ### Installation and usage
 From this directory...
