@@ -106,3 +106,28 @@ class Cac(FormatClass):
                 a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])}\n')
 
         self.list_data = a
+
+    def to_list_xyz(self):
+        """ extended XYZ allows for definition of header info, box info, column tags"""
+        a = []
+        lx, ly, lz = self.box
+        # EXYZ
+        header_string = (f'{self.nnodes}\n' 
+                         f'Lattice="'
+                         f'{lx[1]} 0.0 0.0 0.0 '
+                         f'{ly[1]} 0.0 0.0 0.0 '
+                         f'{lz[1]} 0.0 0.0 0.0" '
+                         f'Origin="{lx[0]} {ly[0]} {lz[0]}" '
+                         f'Properties=id:I:1:'
+                         f'molecule_type:I:1:species:I:1:pos:R:3\n')
+        a.append(header_string)
+        # main elemnt info
+        for id in range(self.nelements):
+            st = self.info[id]
+            etype = int(st[0])
+            curr_p = self.positions[id]
+
+            for p in range(self.SIZES[etype][0]):
+                atype = int(self.atypes[id][p])
+                a.append(f'{id} {etype} {atype} {"    ".join(str(c) for c in curr_p[p])}\n')
+        self.list_data = a

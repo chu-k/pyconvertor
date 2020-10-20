@@ -17,8 +17,9 @@ Currently supported conversions:
 | *.nodal   | *.cac     | readable by LAMMPS `read_data`     |
 |           | *.last    | mixed-resolution NEB replica |
 |           | *.cacovito| visualization of CAC nodes in OVITO     |
-| *.dump    | *.last     | LAMMPS NEB replica format     |
+| *.dump    | *.last    | LAMMPS NEB replica format     |
 | *.cac     | *.cacovito| 
+|           | *.xyz     | Extended XYZ format that preserves box vector and origin|
 
 ### Installation and usage
 From this directory...
@@ -38,7 +39,7 @@ python -m convertor -i INPUTFILE -o OUTPUTFILE
 python -m convertor -i input.nodal -o output.cac -r
 ```
 
-### \*.cacovito format
+### \*.cacovito format (deprecated for better *.xyz format)
 This format allows you to view CAC structure files in OVITO and color by property. Molecule Type = 1 for nodes, = 0 for atomic DOF.
 Load the custom column mapping as:
 
