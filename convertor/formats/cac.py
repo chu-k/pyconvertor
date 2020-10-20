@@ -114,9 +114,9 @@ class Cac(FormatClass):
         # EXYZ
         header_string = (f'{self.nnodes}\n' 
                          f'Lattice="'
-                         f'{lx[1]} 0.0 0.0 0.0 '
-                         f'{ly[1]} 0.0 0.0 0.0 '
-                         f'{lz[1]} 0.0 0.0 0.0" '
+                         f'{float(lx[1]) + abs(float(lx[0]))} 0.0 0.0 0.0 '
+                         f'{float(ly[1]) + abs(float(ly[0]))} 0.0 0.0 0.0 '
+                         f'{float(lz[1]) + abs(float(lz[0]))} 0.0 0.0 0.0" '
                          f'Origin="{lx[0]} {ly[0]} {lz[0]}" '
                          f'Properties=id:I:1:'
                          f'molecule_type:I:1:species:I:1:pos:R:3\n')
