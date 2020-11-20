@@ -37,7 +37,7 @@ class Nodal(FormatClass):
         self.ntypes = int(self.header[2][0])
         self.box = [a[:2] for a in self.header[3]]
         self.header.append([hp.read_line_number(input, n+10).split() for n in range(self.ntypes)])
-        self.masses = self.header[4][:2]
+        self.masses = self.header[4][:]
 
     def read_body(self):
     # reads in cac/nodal 8-node data into a numpy array
